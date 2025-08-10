@@ -60,7 +60,7 @@ def send_to_fibaro(device_id: int, command: str) -> dict:
     
     # Envoi de la requête POST vers la Fibaro HC3
     try:
-        response = requests.post(url, auth=auth)
+        response = requests.post(url, auth=auth, timeout=5)
         
         # Si commande réussie, réponse 200.
         if response.status_code == 200:
