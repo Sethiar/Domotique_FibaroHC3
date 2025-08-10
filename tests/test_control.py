@@ -1,6 +1,10 @@
 # Dans terminal dans dossier sorce : 
 # pytest --maxfail=1 --disable-warnings -q
 
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 
 import pytest
 from unittest.mock import patch
@@ -8,8 +12,8 @@ from unittest.mock import patch
 from controllers.control import process_ipx_event
 
 
-@patch("controllers.control.send_to_fibaro")
-@patch("controllers.control.log_action")
+@patch("serveur_fibaro.services.fibaro_service.send_to_fibaro")
+@patch("serveur_fibaro.logs.log_action")
 def test_process_ipx_event_success(mock_log, mock_send):
     # Mock la réponse de send_to_fibaro pour simuler succès
     mock_send.return_value = {"status": "success", "code": 200}
@@ -28,8 +32,8 @@ def test_process_ipx_event_success(mock_log, mock_send):
     mock_send.assert_called_once_with(12, "turnOn")
 
 
-@patch("controllers.control.send_to_fibaro")
-@patch("controllers.control.log_action")
+@patch("serveur_fibaro.services.fibaro_service.send_to_fibaro")
+@patch("serveur_fibaro.logs.log_action")
 def test_process_ipx_event_invalid_data(mock_log, mock_send):
     # Cas données invalides : device_id manquant
     data = {"action": "on"}
@@ -46,8 +50,8 @@ def test_process_ipx_event_invalid_data(mock_log, mock_send):
     mock_send.assert_not_called()
 
 
-@patch("controllers.control.send_to_fibaro")
-@patch("controllers.control.log_action")
+@patch("serveur_fibaro.services.fibaro_service.send_to_fibaro")
+@patch("serveur_fibaro.logs.log_action")
 def test_process_ipx_event_send_failure(mock_log, mock_send):
     # Simule échec de send_to_fibaro
     mock_send.return_value = {"status": "failed", "code": 500, "message": "Erreur"}

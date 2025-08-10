@@ -61,25 +61,3 @@ LOG_FILE_PATH = os.getenv("LOG_FILE_PATH", "logs/actions.log")
 # Niveau de verbosité pour les logs (INFO, DEBUG, WARNING, ERROR, CRITICAL)
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
-
-#============================#
-#     Paramètres LOGGING     #
-#============================#
-import logging
-
-# Création du logger
-logger = logging.getLogger("fibaro_logger")
-logger.setLevel(logging.DEBUG)  # Niveau général (DEBUG en dev, INFO en prod)
-
-# Format du log
-formatter = logging.Formatter(
-    "[%(asctime)s] [%(levelname)s] %(name)s: %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
-)
-
-# Handler console
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(formatter)
-
-# Ajout du handler au logger
-if not logger.hasHandlers():
-    logger.addHandler(console_handler)

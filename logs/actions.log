@@ -1,0 +1,405 @@
+[08-08-2025 11:01:42] [ERROR] fibaro_logger: JSON invalide reçu: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+[08-08-2025 11:02:00] [ERROR] fibaro_logger: JSON invalide reçu: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+[08-08-2025 11:05:09] [ERROR] fibaro_logger: JSON invalide reçu: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+[08-08-2025 11:05:11] [ERROR] fibaro_logger: JSON invalide reçu: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+[08-08-2025 11:05:16] [ERROR] fibaro_logger: JSON invalide reçu: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+[08-08-2025 11:05:16] [ERROR] fibaro_logger: JSON invalide reçu: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+[08-08-2025 11:06:06] [ERROR] fibaro_logger: JSON invalide reçu: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+[08-08-2025 11:06:11] [ERROR] fibaro_logger: JSON invalide reçu: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+[08-08-2025 11:06:32] [ERROR] fibaro_logger: JSON invalide reçu: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+[08-08-2025 11:06:39] [ERROR] fibaro_logger: JSON invalide reçu: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+[08-08-2025 11:06:47] [ERROR] fibaro_logger: JSON invalide reçu: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+[08-08-2025 11:09:37] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 11:09:51] [ERROR] fibaro_logger: JSON invalide reçu: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+[08-08-2025 11:09:58] [ERROR] fibaro_logger: Erreur lors de l'envoi de la commande à 12
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\connection.py", line 85, in create_connection
+    raise err
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [WinError 10060] Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 494, in request
+    self.endheaders()
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1331, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1091, in _send_output
+    self.send(msg)
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1035, in send
+    self.connect()
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 325, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 207, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPConnection object at 0x0000024C6FB78080>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000024C6FB78080>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\services\fibaro_service.py", line 53, in send_to_fibaro
+    response = requests.post(url, auth=auth)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\adapters.py", line 688, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000024C6FB78080>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))
+[08-08-2025 11:09:58] [WARNING] fibaro_logger: Échec de l'envoi de commande: {'status': 'error', 'message': "HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000024C6FB78080>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))"}
+[08-08-2025 12:25:26] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:25:41] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:26:02] [ERROR] fibaro_logger: Erreur lors de l'envoi de la commande à 12
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\connection.py", line 85, in create_connection
+    raise err
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [WinError 10060] Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 494, in request
+    self.endheaders()
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1331, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1091, in _send_output
+    self.send(msg)
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1035, in send
+    self.connect()
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 325, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 207, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPConnection object at 0x000001C6547D28D0>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000001C6547D28D0>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\services\fibaro_service.py", line 53, in send_to_fibaro
+    response = requests.post(url, auth=auth)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\adapters.py", line 688, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000001C6547D28D0>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))
+[08-08-2025 12:26:02] [WARNING] fibaro_logger: Échec de l'envoi de commande: {'status': 'error', 'message': "HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000001C6547D28D0>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))"}
+[08-08-2025 12:29:47] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:29:47] [INFO] fibaro_logger: Commande envoyée 'turnOn' à 12: 200
+[08-08-2025 12:29:47] [INFO] fibaro_logger: Commande 'turnOn' envoyée avec succès pour device 12
+[08-08-2025 12:29:54] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:29:54] [INFO] fibaro_logger: Commande envoyée 'turnOn' à 12: 200
+[08-08-2025 12:29:54] [INFO] fibaro_logger: Commande 'turnOn' envoyée avec succès pour device 12
+[08-08-2025 12:30:11] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:30:11] [INFO] fibaro_logger: Commande envoyée 'turnOn' à 12: 200
+[08-08-2025 12:30:11] [INFO] fibaro_logger: Commande 'turnOn' envoyée avec succès pour device 12
+[08-08-2025 12:30:59] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:30:59] [INFO] fibaro_logger: Commande envoyée 'turnOn' à 12: 200
+[08-08-2025 12:30:59] [INFO] fibaro_logger: Commande 'turnOn' envoyée avec succès pour device 12
+[08-08-2025 12:32:00] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:32:00] [INFO] fibaro_logger: Commande envoyée 'turnOn' à 12: 200
+[08-08-2025 12:32:00] [INFO] fibaro_logger: Commande 'turnOn' envoyée avec succès pour device 12
+[08-08-2025 12:32:10] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:32:10] [INFO] fibaro_logger: Commande envoyée 'turnOn' à 12: 200
+[08-08-2025 12:32:10] [INFO] fibaro_logger: Commande 'turnOn' envoyée avec succès pour device 12
+[08-08-2025 12:32:55] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:32:55] [INFO] fibaro_logger: Commande envoyée 'turnOn' à 12: 200
+[08-08-2025 12:32:55] [INFO] fibaro_logger: Commande 'turnOn' envoyée avec succès pour device 12
+[08-08-2025 12:33:08] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:33:08] [INFO] fibaro_logger: Commande envoyée 'turnOn' à 12: 200
+[08-08-2025 12:33:08] [INFO] fibaro_logger: Commande 'turnOn' envoyée avec succès pour device 12
+[08-08-2025 12:34:39] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:35:00] [ERROR] fibaro_logger: Erreur lors de l'envoi de la commande à 12
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\connection.py", line 85, in create_connection
+    raise err
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [WinError 10060] Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 494, in request
+    self.endheaders()
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1331, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1091, in _send_output
+    self.send(msg)
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1035, in send
+    self.connect()
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 325, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 207, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPConnection object at 0x000001EE588E7500>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000001EE588E7500>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\services\fibaro_service.py", line 62, in send_to_fibaro
+    response = requests.post(url, auth=auth)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\adapters.py", line 688, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000001EE588E7500>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))
+[08-08-2025 12:35:00] [WARNING] fibaro_logger: Échec de l'envoi de commande: {'status': 'error', 'message': "HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000001EE588E7500>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))"}
+[08-08-2025 12:35:03] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:35:24] [ERROR] fibaro_logger: Erreur lors de l'envoi de la commande à 12
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\connection.py", line 85, in create_connection
+    raise err
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [WinError 10060] Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 494, in request
+    self.endheaders()
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1331, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1091, in _send_output
+    self.send(msg)
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1035, in send
+    self.connect()
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 325, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 207, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPConnection object at 0x000001EE58992180>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000001EE58992180>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\services\fibaro_service.py", line 62, in send_to_fibaro
+    response = requests.post(url, auth=auth)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\adapters.py", line 688, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000001EE58992180>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))
+[08-08-2025 12:35:24] [WARNING] fibaro_logger: Échec de l'envoi de commande: {'status': 'error', 'message': "HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000001EE58992180>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))"}
+[08-08-2025 12:36:11] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:36:32] [ERROR] fibaro_logger: Erreur lors de l'envoi de la commande à 12
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\connection.py", line 85, in create_connection
+    raise err
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\connection.py", line 73, in create_connection
+    sock.connect(sa)
+TimeoutError: [WinError 10060] Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 494, in request
+    self.endheaders()
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1331, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1091, in _send_output
+    self.send(msg)
+  File "C:\Users\Lefet\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1035, in send
+    self.connect()
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 325, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connection.py", line 207, in _new_conn
+    raise ConnectTimeoutError(
+urllib3.exceptions.ConnectTimeoutError: (<urllib3.connection.HTTPConnection object at 0x000001EE58A90680>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\urllib3\util\retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000001EE58A90680>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\services\fibaro_service.py", line 62, in send_to_fibaro
+    response = requests.post(url, auth=auth)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lefet\OneDrive\Bureau\serveur_fibaro\venv\Lib\site-packages\requests\adapters.py", line 688, in send
+    raise ConnectTimeout(e, request=request)
+requests.exceptions.ConnectTimeout: HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000001EE58A90680>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))
+[08-08-2025 12:36:32] [WARNING] fibaro_logger: Échec de l'envoi de commande: {'status': 'error', 'message': "HTTPConnectionPool(host='192.168.1.33', port=80): Max retries exceeded with url: /api/devices/12/action/turnOn (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x000001EE58A90680>, 'Connection to 192.168.1.33 timed out. (connect timeout=None)'))"}
+[08-08-2025 12:38:31] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:38:31] [INFO] fibaro_logger: Commande envoyée 'turnOn' à 12: 200
+[08-08-2025 12:38:31] [INFO] fibaro_logger: Commande 'turnOn' envoyée avec succès pour device 12
+[08-08-2025 12:38:40] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:38:40] [INFO] fibaro_logger: Commande envoyée 'turnOn' à 12: 200
+[08-08-2025 12:38:40] [INFO] fibaro_logger: Commande 'turnOn' envoyée avec succès pour device 12
+[08-08-2025 12:38:56] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:38:56] [INFO] fibaro_logger: Commande envoyée 'turnOn' à 12: 200
+[08-08-2025 12:38:56] [INFO] fibaro_logger: Commande 'turnOn' envoyée avec succès pour device 12
+[08-08-2025 12:39:08] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:39:38] [INFO] fibaro_logger: Device 12 => ON
+[08-08-2025 12:39:38] [INFO] fibaro_logger: Commande envoyée 'turnOn' à 12: 200
+[08-08-2025 12:39:38] [INFO] fibaro_logger: Commande 'turnOn' envoyée avec succès pour device 12

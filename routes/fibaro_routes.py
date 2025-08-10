@@ -6,7 +6,7 @@ fibaro_bp = Blueprint('fibaro', __name__)
 
 
 # Fonction qui va recevoir les événements de l'IPx800.
-@fibaro_bp.route('/ipx-event', methods=['POST'])
+@fibaro_bp.route('/ipx-event', methods=['GET', 'POST'])
 def handle_ipx_event():
     """
     Point d'entrée API pour recevoir les événements de l'IPX800.
@@ -17,7 +17,7 @@ def handle_ipx_event():
         - Vérification des champs obligatoires.
         - Appel à la logique métier pour traitement.
         - Retour d'une réponse JSON avec un code HTTP adapté.
-    
+    192.128.192.168.1.28
     Returns:
         Response JSON avec le statut de la requête et code HTTP :
             - 200 si succès,

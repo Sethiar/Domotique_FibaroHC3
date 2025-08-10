@@ -20,6 +20,7 @@ from services.logger_service import logger
 
 # Permet de gérer l'authentification HTTP Basic(nom d'utilisateur et password en entête)
 from requests.auth import HTTPBasicAuth
+
 # Chargment des variables définies dans .env.
 from dotenv import load_dotenv
 load_dotenv()
@@ -46,7 +47,16 @@ def send_to_fibaro(device_id: int, command: str) -> dict:
     auth = HTTPBasicAuth(os.getenv("FIBARO_USER"), os.getenv("FIBARO_PASSWORD"))
     
     # Construction dynamique de l'url.
-    url = f"http://{FIBARO_IP}:{FIBARO_PORT}/api/devices/{device_id}/action/{command}"
+    use_simulator = os.getenv("USE_SIMULATOR", "false").lower() == "true"
+    print(f"[DEBUG] USE_SIMULATOR brut = {os.getenv('USE_SIMULATOR')}")
+    
+    if use_simulator:
+        base_url = "http://127.0.0.1:5001"
+    else:
+        base_url = f"http://{os.getenv('FIBARO_IP', '192.168.1.33')}"
+
+    # Construction de l'URL dynamique (avec action on/off)
+    url = f"{base_url}/api/devices/{device_id}/action/{command}"
     
     # Envoi de la requête POST vers la Fibaro HC3
     try:
