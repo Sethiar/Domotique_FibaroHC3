@@ -44,8 +44,8 @@ SECRET_KEY = os.getenv("FLASK_SECRET_KEY", "sethiarworks-secretkey")
 FIBARO_IP = os.getenv("FIBARO_IP", "192.168.1.33")
 
 # Identifiants API Fibaro
-FIBARO_USER = os.getenv("FIBARO_USER", "admin")
-FIBARO_PASSWORD = os.getenv("FIBARO_PASSWORD", "admin")
+FIBARO_USER = os.getenv("FIBARO_USER", "Rv2")
+FIBARO_PASSWORD = os.getenv("FIBARO_PASSWORD", "+1958Rv1005+")
 
 # Port de l'API Fibaro (souvent 80 ou 443)
 FIBARO_PORT = int(os.getenv("FIBARO_PORT", 80))
