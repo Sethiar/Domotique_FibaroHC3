@@ -14,7 +14,7 @@ LOG_DIR = "logs"
 os.makedirs(LOG_DIR, exist_ok=True)
 
 # Chemin du fichier log
-LOG_FILE = os.path.join("logs", "actions.log")
+LOG_FILE = os.path.join("logs", "action.log")
 
 
 # Création du logger
