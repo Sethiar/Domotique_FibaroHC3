@@ -27,9 +27,12 @@ def handle_ipx_event():
     try:
         # Récupère et force la conversion en JSON, lève une erreur si invalide
         data = request.get_json(force=True)
+        if not data:
+            logger.warning("Requête JSON vide reçue.")
+            return jsonify({"status": "ignored"}), 200
     except Exception as e:
-        logger.error(f"JSON invalide reçu: {e}")
-        return jsonify({"status": "error", "message": "JSON invalide."}), 400
+        logger.error(f"Erreur parsing JSON : {e}")
+        return jsonify({"status": "error", }), 200
     
     # Vérifie que les champs nécessaires sont présents
     if not data or "device_id" not in data or "action" not in data:
