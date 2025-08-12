@@ -7,8 +7,26 @@ from controllers.control import process_ipx_event
 fibaro_bp = Blueprint('fibaro', __name__)
 
 
+# Fonction tests qui reçoit tout de l'ipx800
+@fibaro_bp.route('/ipx-tests', methods=['GET', 'POST'])
+def ipx_tests():
+    try:
+        logger.info("---- NOUVELLE REQUÊTE IPX ----")
+        logger.info(f"Méthode : {request.method}")
+        logger.info(f"Headers : {dict(request.headers)}")
+        logger.info(f"Query String : {request.query_string.decode(errors='ignore')}")
+        logger.info(f"Form data : {request.form.to_dict()}")
+        logger.info(f"Raw data : {request.data.decode(errors='ignore')}")
+        logger.info(f"JSON : {request.get_json(silent=True)}")
+        logger.info("---------------------------------")
+        return "OK", 200
+    except Exception as e:
+        logger.exception(f"Erreur dans ipx-tests : {e}")
+        return "Erreur serveur", 500
+  
+  
 # Fonction qui va recevoir les événements de l'IPx800.
-@fibaro_bp.route('/ipx-event', methods=['POST'])
+@fibaro_bp.route('/ipx-event', methods=['GET', 'POST'])
 def handle_ipx_event():
     """
     Point d'entrée API pour recevoir les événements de l'IPX800.
@@ -74,18 +92,25 @@ def handle_ipx_event():
             try:
                 raw = request.data.decode(errors='ignore').strip()
                 if raw  and '=' in raw:
-                    params = dict(pair.split('=') for pair in raw.split('&') if '=' in pair)
+                    params = dict(pair.split('=', 1) for pair in raw.split('&') if '=' in pair)
                     device_id = device_id or params.get('device_id')
                     action = action or params.get('action')
             except Exception as e:
                 logger.warning(f"Erreur lors de la récupération des données brutes.", {e})
-            
+
+        # Vérification que device_id et action sont présents
         if not device_id or not action:        
             logger.error("device_id ou action manquants après parsing complet.")
             return jsonify({"status": "error", "message": "device_id et action requis."}), 400    
     
         # Normalisation de l'action (ex: 'on' ou 'off').
         action = action.lower()
+        
+        # Après extraction des params
+        if action not in ('on', 'off'):
+            logger.error(f"Action invalide reçue: {action}")
+            return jsonify({"status": "error", "message": "Action doit être 'on' ou 'off'."}), 400
+
        
         # Log des données extraites
         logger.info(f"ID du périphérique : {device_id}, Action : {action}")

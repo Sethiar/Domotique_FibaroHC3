@@ -30,6 +30,13 @@ load_dotenv()
 FIBARO_IP = os.getenv("FIBARO_IP")
 # Port d'écoute de l'API (80 par défaut)
 FIBARO_PORT = int(os.getenv("FIBARO_PORT", 80))
+# utilisateur de la Fibaro HC3
+FIBARO_USER = os.getenv("FIBARO_USER")
+# Mot de passe de la Fibaro HC3
+FIBARO_PASSWORD = os.getenv("FIBARO_PASSWORD")
+# Construction dynamique de l'url.
+USE_SIMULATOR = os.getenv("USE_SIMULATOR", "false").lower() == "true"
+
 
 # Fonction qui permet d'envoyer une commande à la fibaro HC3.
 def send_to_fibaro(device_id: int, command: str) -> dict:
@@ -44,16 +51,19 @@ def send_to_fibaro(device_id: int, command: str) -> dict:
         dict: Résultat de l'opération.   
     """
     # Récupération du login et mdp depuis .env, puis transmis à l'objet auth à la requête HTTP.
-    auth = HTTPBasicAuth(os.getenv("FIBARO_USER"), os.getenv("FIBARO_PASSWORD"))
+    auth = HTTPBasicAuth(FIBARO_USER, FIBARO_PASSWORD)
     
     # Construction dynamique de l'url.
-    use_simulator = os.getenv("USE_SIMULATOR", "false").lower() == "true"
     print(f"[DEBUG] USE_SIMULATOR brut = {os.getenv('USE_SIMULATOR')}")
-    
-    if use_simulator:
+    if USE_SIMULATOR:
         base_url = "http://127.0.0.1:5001"
     else:
-        base_url = f"http://{os.getenv('FIBARO_IP', '192.168.1.33')}"
+        # Intègre le port dans l'URL si ce n'est pas le port par défaut 80
+        if FIBARO_PORT == 80:
+            base_url = f"http://{FIBARO_IP}"
+        else:
+            base_url = f"http://{FIBARO_IP}:{FIBARO_PORT}"
+            
 
     # Construction de l'URL dynamique (avec action on/off)
     url = f"{base_url}/api/devices/{device_id}/action/{command}"
