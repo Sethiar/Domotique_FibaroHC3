@@ -121,3 +121,16 @@ def handle_ipx_event():
     except Exception as e:
         logger.exception(f"Erreur lors du traitement de l'événement IPX800 : {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
+    
+    
+# IP de ton IPX800
+IPX800_IP = "192.168.1.40"  # à adapter
+IPX800_USER = "admin"       # si login requis
+IPX800_PASS = "password"    # si login requis
+
+# Route pour envoyer des commandes à l'IPX800
+@fibaro_bp.route('/ipx-tests2', methods=['GET'])
+def receive_ipx_data():
+    data = request.args if request.method == "GET" else request.form
+    print("Données reçues :", data.to_dict())
+    return "OK", 200
