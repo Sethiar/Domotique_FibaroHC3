@@ -51,7 +51,7 @@ def send_to_fibaro(device_id: int, command: str) -> dict:
         dict: Résultat de l'opération.   
     """
     # Récupération du login et mdp depuis .env, puis transmis à l'objet auth à la requête HTTP.
-    auth = HTTPBasicAuth(FIBARO_USER, FIBARO_PASSWORD)
+    auth = HTTPBasicAuth('Rv2', '+1958Rv1005+')
     
     # Construction dynamique de l'url.
     print(f"[DEBUG] USE_SIMULATOR brut = {os.getenv('USE_SIMULATOR')}")
@@ -66,11 +66,17 @@ def send_to_fibaro(device_id: int, command: str) -> dict:
             
 
     # Construction de l'URL dynamique (avec action on/off)
-    url = f"{base_url}/api/devices/{device_id}/action/{command}"
+    url = f"{base_url}/api/devices/{device_id}/action/setValue"
+    
+    # Définition de la valeur en fonction de la commande.
+    value = 1 if command.lower() in ["turnon", "on"] else 0
+    payload = {"id": device_id, "properties": {"value": value}}
+    headers = {"Content-Type": "application/json"}
+    
     
     # Envoi de la requête POST vers la Fibaro HC3
     try:
-        response = requests.post(url, auth=auth, timeout=5)
+        response = requests.post(url, auth=auth, json=payload, headers=headers, timeout=15)
         
         # Si commande réussie, réponse 200.
         if response.status_code == 200:
