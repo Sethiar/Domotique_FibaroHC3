@@ -38,18 +38,18 @@ def handle_ipx_event():
       - paramètres URL (query string),
       - données de formulaire (form-data),
       - corps JSON,
-      - ou données brutes au format clé=valeur (ex: device_id=123&action=on).
+      - ou données brutes au format clé=valeur (ex: device_id=123&etat=on).
 
     Données requises :
 
       - device_id (identifiant du périphérique),
-      - action (commande, typiquement 'on' ou 'off').
+      - etat (commande, typiquement '1/on' ou '0/off').
 
     Processus :
 
       1. Log des détails de la requête (headers, query, form, raw data).
       2. Extraction des données dans l'ordre : query string → form → JSON → texte brut.
-      3. Validation de la présence des champs `device_id` et `action`.
+      3. Validation de la présence des champs `device_id` et `etat`.
       4. Appel de la fonction métier `process_ipx_event` pour traitement.
       5. Retour d'une réponse JSON avec le statut et message.
 
@@ -59,74 +59,62 @@ def handle_ipx_event():
       - 500 : erreur serveur (non gérée ici explicitement mais possible).
     """
     try:
-        # Logs pour debugging et suivi
-        logger.info(f"Headers de la requête : {dict(request.headers)}")
-        logger.info(f"Query string de la requête : {request.query_string.decode()}")
+        # Logs pour debug
+        logger.info(f"---- NOUVELLE REQUÊTE IPX ----")
+        logger.info(f"Méthode : {request.method}")
+        logger.info(f"Headers : {dict(request.headers)}")
+        logger.info(f"Query string : {request.query_string.decode(errors='ignore')}")
         logger.info(f"Form data : {request.form.to_dict()}")
         logger.info(f"Raw data : {request.data.decode(errors='ignore')}")
-    
-        # Paramètres URL.
-        device_id = request.args.get('device_id')
-        action = request.args.get('action')
-    
-        # Form data (si non trouvé dans les paramètres URL).
-        if not device_id or not action:
-            device_id = device_id or request.form.get('device_id')
-            action = action or request.form.get('action') 
-        
-        # Si pas trouvé, essayer de parser le raw data si possible (ex: JSON brut)
-        if not device_id or not action:
-            try:
-                # Récupère et force la conversion en JSON, lève une erreur si invalide
-                json_data = request.get_json(silent=True)
-                
-                if json_data:
-                    device_id = device_id or json_data.get('device_id')
-                    action = action or json_data.get('action')
-            
-            except Exception as e:
-                logger.warning(f"Erreur lors de la récupération des données JSON.", {e})   
-        
-        # Texte brut clé=valeur (ex: "device_id=123&action=on")    
-        if not device_id or not action:
-            try:
-                raw = request.data.decode(errors='ignore').strip()
-                if raw  and '=' in raw:
-                    params = dict(pair.split('=', 1) for pair in raw.split('&') if '=' in pair)
-                    device_id = device_id or params.get('device_id')
-                    action = action or params.get('action')
-            except Exception as e:
-                logger.warning(f"Erreur lors de la récupération des données brutes.", {e})
+        logger.info(f"JSON : {request.get_json(silent=True)}")
+        logger.info("---------------------------------")
 
-        # Vérification que device_id et action sont présents
-        if not device_id or not action:        
-            logger.error("device_id ou action manquants après parsing complet.")
-            return jsonify({"status": "error", "message": "device_id et action requis."}), 400    
-    
-        # Normalisation de l'action (ex: 'on' ou 'off').
-        action = action.lower()
-        
-        # Après extraction des params
-        if action not in ('on', 'off'):
-            logger.error(f"Action invalide reçue: {action}")
-            return jsonify({"status": "error", "message": "Action doit être 'on' ou 'off'."}), 400
+        # Récupération des paramètres
+        device_id = request.args.get('relais') or request.form.get('relais')
+        etat = request.args.get('etat') or request.form.get('etat')
 
-       
-        # Log des données extraites
-        logger.info(f"ID du périphérique : {device_id}, Action : {action}")
-        data = {'device_id': device_id, 'action': action}
+        # Tentative JSON si non trouvé
+        if not device_id or not etat:
+            json_data = request.get_json(silent=True)
+            if json_data:
+                device_id = device_id or json_data.get('device_id') or json_data.get('relais')
+                etat = etat or json_data.get('etat')
+
+        # Tentative raw data clé=valeur
+        if not device_id or not etat:
+            raw = request.data.decode(errors='ignore').strip()
+            if raw and '=' in raw:
+                params = dict(pair.split('=', 1) for pair in raw.split('&') if '=' in pair)
+                device_id = device_id or params.get('device_id') or params.get('relais')
+                etat = etat or params.get('etat')
+
+        # Vérification
+        if not device_id or not etat:
+            logger.error("device_id ou etat manquants après parsing complet.")
+            return jsonify({"status": "error", "message": "device_id et etat requis."}), 400
+
+        # Normalisation de l'état
+        etat = etat.strip().lower()
+        if etat in ('1', 'on'):
+            etat = 'on'
+        elif etat in ('0', 'off'):
+            etat = 'off'
+        else:
+            logger.error(f"Etat invalide reçu : {etat}")
+            return jsonify({"status": "error", "message": "Etat doit être 0/1 ou on/off."}), 400
+
+        # Log final
+        logger.info(f"ID du périphérique : {device_id}, Etat : {etat}")
+        data = {'device_id': device_id, 'etat': etat}
+
+        # Appel de la fonction métier
         response = process_ipx_event(data)
         return jsonify(response), 200
-    
+
     except Exception as e:
         logger.exception(f"Erreur lors du traitement de l'événement IPX800 : {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
     
-    
-# IP de ton IPX800
-IPX800_IP = "192.168.1.40"  # à adapter
-IPX800_USER = "admin"       # si login requis
-IPX800_PASS = "password"    # si login requis
 
 # Route pour envoyer des commandes à l'IPX800
 @fibaro_bp.route('/ipx-tests2', methods=['GET'])
@@ -134,3 +122,4 @@ def receive_ipx_data():
     data = request.args if request.method == "GET" else request.form
     print("Données reçues :", data.to_dict())
     return "OK", 200
+
