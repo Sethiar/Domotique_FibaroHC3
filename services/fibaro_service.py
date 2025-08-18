@@ -14,6 +14,8 @@ Date : 2025-08-05
 import requests
 # Permet de lire les variables d'environnement définies dans le fichier .env.
 import os
+# Module pour la gestion des données JSON.
+import json
 
 # Importation afin de pouvoir faire des logging de suivi.
 from services.logger_service import logger
@@ -66,16 +68,16 @@ def send_to_fibaro(device_id: int, command: str) -> dict:
             
 
     # Construction de l'URL dynamique (avec action on/off)
-    url = f"{base_url}/api/devices/{device_id}/action/setValue"
+    url = f"{base_url}/api/devices/{device_id}/action/{command}"
     
     # Définition de la valeur en fonction de la commande.
-    value = 1 if command.lower() in ["turnon", "on"] else 0
-    payload = {"id": device_id, "properties": {"value": value}}
+    payload = {"args":""}
     headers = {"Content-Type": "application/json"}
     
     
     # Envoi de la requête POST vers la Fibaro HC3
     try:
+        logger.debug(f"Envoi à Fibaro: URL={url}, payload={json.dumps(payload)}")
         response = requests.post(url, auth=auth, json=payload, headers=headers, timeout=15)
         
         # Si commande réussie, réponse 200.
