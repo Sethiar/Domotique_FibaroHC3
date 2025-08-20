@@ -1,1 +1,8 @@
+# Ne pas envoyer le venv.
 venv/
+
+# Ignorer les fichiers .pyc
+*.pyc
+
+# Ignorer les dossiers __pycache__
+__pycache__/
