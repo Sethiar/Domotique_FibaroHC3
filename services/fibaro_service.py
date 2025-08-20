@@ -29,13 +29,13 @@ load_dotenv()
 
 
 # Adresse IP de la box Fibaro HC3
-FIBARO_IP = os.getenv("FIBARO_IP")
+FIBARO_IP = "192.168.1.33"
 # Port d'écoute de l'API (80 par défaut)
-FIBARO_PORT = int(os.getenv("FIBARO_PORT", 80))
+FIBARO_PORT = "80"
 # utilisateur de la Fibaro HC3
-FIBARO_USER = os.getenv("FIBARO_USER")
+FIBARO_USER = "Rv2"
 # Mot de passe de la Fibaro HC3
-FIBARO_PASSWORD = os.getenv("FIBARO_PASSWORD")
+FIBARO_PASSWORD = "+1958Rv1005+"
 # Construction dynamique de l'url.
 USE_SIMULATOR = os.getenv("USE_SIMULATOR", "false").lower() == "true"
 
@@ -106,4 +106,53 @@ def send_to_fibaro(device_id: int, command: str) -> dict:
         logger.exception(f"Erreur lors de l'envoi de la commande à {device_id}")
         # Retour explicite en cas d'échec.
         return {"status": "error", "message": str(e)}
+
+def set_icon(device_id: int, icon_id: int) -> dict:
+    """
+    Change l'icône d'un périphérique Fibaro HC3.
     
+    Args:
+        device_id (int): Identifiant du périphérique cible.
+        icon (int): Identifiant de l'icône à (ON ou OFF)
+        
+    Returns:
+        dict: Résultat de l'opération.   
+    """
+    # Récupération du login et mdp depuis .env, puis transmis à l'objet auth à la requête HTTP.
+    auth = HTTPBasicAuth(FIBARO_USER, FIBARO_PASSWORD)
+    
+    # Construction dynamique de l'url.
+    if USE_SIMULATOR:
+        base_url = "http://127.0.1:5001"
+    else:
+        # Intègre le port dans l'URL si ce n'est pas le port par défaut 80
+        if FIBARO_PORT == 80:
+            base_url = f"http://{FIBARO_IP}"
+        else:
+            base_url = f"http://{FIBARO_IP}:{FIBARO_PORT}"
+    
+    url = f"{base_url}/api/devices/{device_id}/action/setIcon"
+    payload = {"iconId": icon_id}
+    headers = {"Content-Type": "application/json"}
+    
+    try:
+        logger.debug(f"Changement d'icône pour {device_id}: URL={url}, payload={json.dumps(payload)}")
+        response = requests.post(url, auth=auth, json=payload, headers=headers, timeout=15)
+        
+        if response.status_code == 200:
+            logger.info(f"Icône changée pour {device_id} avec succès.")
+            return {"status": "success", "code": response.status_code}
+        elif response.status_code == 401:
+            logger.error("Authentification échouée à la Fibaro HC3.")
+            return {"status": "unauthorized", "code": response.status_code}
+        elif response.status_code == 404:
+            logger.error(f"Appareil {device_id} introuvable.")    
+            return {"status": "not_found", "code": response.status_code}  
+        else:
+            logger.warning(f"Réponse inattendue de la Fibaro HC3 ({response.status_code}): {response.text}")
+            return {"status": "failed", "code": response.status_code, "message": response.text}
+    except Exception as e:
+        logger.exception(f"Erreur lors du changement d'icône pour {device_id}")
+        return {"status": "error", "message": str(e)}
+    
+             
