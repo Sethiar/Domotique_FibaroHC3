@@ -53,9 +53,9 @@ if not logger.hasHandlers():
 #============================#
 
 
-def log_action(device_id, action):
+def log_action(device_id, value):
     """
-    Log une action d'un device avec le niveau INFO
+    Log une valeur d'un device avec le niveau INFO
     """
-    logger.info(f"Device {device_id} => {action.upper()}")
+    logger.info(f"Device {device_id} => {value}")
     
