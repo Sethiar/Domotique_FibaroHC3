@@ -1,0 +1,56 @@
+Mise en place du démarrage automatique du serveur Flask.
+
+
+1/Se connecter au raspberry : 
+   ssh pi192.168.1.10
+
+
+2/ Vérification de flask
+python app.py
+
+
+3/ Arrêt
+
+
+4/ Création d'un fichier systemd
+sudo nano /etc/systemd/system/fibaro_flask.service
+
+
+5/ 
+[Unit]
+Description=Serveur Flask pour Domotique Fibaro HC3
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/Domotique_FibaroHC3
+ExecStart=/home/pi/Domotique_FibaroHC3/venv/bin/python /home/pi/Domotique_FibaroHC3/app.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+/* Commande client pour recharger */
+sudo systemctl daemon-reload
+sudo systemctl enable fibaro_flask
+sudo systemctl start fibaro_flask
+
+
+/* Vérification que le serveur tourne */
+systemctl status fibaro_flask
+
+(active (running) en vert
+
+
+/* Regarder les logs */
+journalctl -u fibaro_flask -f
+
+
+/* Tester au démarrage */
+sudo reboot
+
+  - Reconnexion avec SSH et on tape :
+   systemctl status fibaro_flask
+
+Normalement il fonctionne tout seul.
