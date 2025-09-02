@@ -40,7 +40,7 @@ sudo systemctl start fibaro_flask
 /* Vérification que le serveur tourne */
 systemctl status fibaro_flask
 
-(active (running) en vert
+(active (running) en vert)
 
 
 /* Regarder les logs */
