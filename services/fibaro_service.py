@@ -33,9 +33,9 @@ FIBARO_IP = "192.168.1.33"
 # Port d'écoute de l'API (80 par défaut)
 FIBARO_PORT = "80"
 # utilisateur de la Fibaro HC3
-FIBARO_USER = "Rv2"
+FIBARO_USER = ""
 # Mot de passe de la Fibaro HC3
-FIBARO_PASSWORD = "+1958Rv1005+"
+FIBARO_PASSWORD = ""
 # Construction dynamique de l'url.
 USE_SIMULATOR = os.getenv("USE_SIMULATOR", "false").lower() == "true"
 
@@ -57,12 +57,13 @@ def set_value_to_fibaro(device_id: int, value: int) -> dict:
     base_url = f"http://{FIBARO_IP}" if FIBARO_PORT =="80" else f"http://{FIBARO_IP}:{FIBARO_PORT}"
     url = f"{base_url}/api/devices/{device_id}/action/setValue"
     
-    payload = {"args": value}
+    payload = {"args": [value]}
     headers = {"Content-Type": "application/json"}
     
     try:
         logger.debug(f"Envoi à Fibaro: URL={url}, payload={payload}")
         response = requests.post(url, auth=auth, json=payload, headers=headers, timeout=15)
+        logger.debug(f"Réponse Fibaro: {response.text}")
         
         if response.status_code == 200:
             return {"status": "success", "code": response.status_code}   
