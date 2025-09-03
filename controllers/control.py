@@ -6,7 +6,7 @@ Gestion simplifiée des événements IPX800 pour Fibaro HC3.
 
 from typing import Dict
 from services.logger_service import logger, log_action
-from services.fibaro_service import set_value_to_fibaro
+from services.fibaro_service import turn_off_fibaro, turn_on_fibaro
 
 def process_ipx_event(data: Dict[str, str]) -> Dict[str, str]:
     """
@@ -16,7 +16,7 @@ def process_ipx_event(data: Dict[str, str]) -> Dict[str, str]:
     etat = data.get("etat")
 
     # Validation
-    if not device_id or etat not in ("on", "off", "1", "0"):
+    if not device_id or etat not in ("on", "off", "1", "0", "true", "turnOn", "turnOff"):
         logger.error(f"Données invalides reçues: {data}")
         return {"status": "error", "message": "Données invalides ou etat inconnu."}
 
@@ -26,18 +26,18 @@ def process_ipx_event(data: Dict[str, str]) -> Dict[str, str]:
         logger.error(f"device_id invalide : {device_id}")
         return {"status": "error", "message": "device_id doit être un entier."}
 
-    # Normalisation de l'état
-    value = 1 if etat in ("on", "1") else 0
-
     try:
         # Log de l’action
-        log_action(device_id, value)
-
-        # Envoi à Fibaro HC3
-        result = set_value_to_fibaro(device_id, value)
+        log_action(device_id)
+        
+        # Normalisation de l'état - Déterminer l'action à exécuter
+        if etat in ("on", "1", "true", "turnOn"):
+            result = turn_on_fibaro(device_id)
+        else:
+            result = turn_off_fibaro(device_id)
 
         if result.get("status") == "success":
-            logger.info(f"Valeur'{value}' envoyée avec succès au périphérique {device_id}")
+            logger.info(f"Action'{etat}' envoyée avec succès au périphérique {device_id}")
             return {"status": "OK", "device": device_id, "etat": etat}
         else:
             logger.warning(f"Échec de l'envoi de valeur: {result}")

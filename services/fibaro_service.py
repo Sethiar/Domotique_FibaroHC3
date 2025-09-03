@@ -25,6 +25,7 @@ from requests.auth import HTTPBasicAuth
 
 # Chargment des variables définies dans .env.
 from dotenv import load_dotenv
+
 load_dotenv()
 
 
@@ -41,13 +42,13 @@ USE_SIMULATOR = os.getenv("USE_SIMULATOR", "false").lower() == "true"
 
 
 # Fonction qui va envoyer la valeur d'état du bouton à la Fibaro.
-def set_value_to_fibaro(device_id: int, value: int) -> dict:
+def _call_action(device_id: int, action: str) -> dict:
     """
     Met à jour la valeur d'un périphérique Fibaro HC3 via l'API setValue.
     
     Args:
         device_id (int): Identifiant du périphérique cible.
-        value (int): Nouvelle valeur (O ou 1).
+        action (str) : Action (turnOn et turnOff) sur un périphérique.
     
     Returns:
         dict: Résultat de l'opération.    
@@ -55,23 +56,39 @@ def set_value_to_fibaro(device_id: int, value: int) -> dict:
     auth = HTTPBasicAuth(FIBARO_USER, FIBARO_PASSWORD)
     
     base_url = f"http://{FIBARO_IP}" if FIBARO_PORT =="80" else f"http://{FIBARO_IP}:{FIBARO_PORT}"
-    url = f"{base_url}/api/devices/{device_id}/action/setValue"
-    
-    payload = {"args": [value]}
+    url = f"{base_url}/api/devices/{device_id}/action/{action}"
+ 
     headers = {"Content-Type": "application/json"}
     
     try:
-        logger.debug(f"Envoi à Fibaro: URL={url}, payload={payload}")
-        response = requests.post(url, auth=auth, json=payload, headers=headers, timeout=15)
+        logger.debug(f"Envoi à Fibaro: URL={url}")
+        response = requests.post(url, auth=auth, headers=headers, timeout=5)
         logger.debug(f"Réponse Fibaro: {response.text}")
         
         if response.status_code == 200:
             return {"status": "success", "code": response.status_code}   
         else: 
-            logger.warning(f"Erreur setValue Fibaro ({response.status_code}): {response.text}")
+            logger.warning(f"Erreur callAction Fibaro ({response.status_code}): {response.text}")
             return {"status": "failed", "code": response.status_code, "message": response.text}
         
     except Exception as e:
-        logger.exception(f"Erreur lors de l'envoi setValue à {device_id}")
+        logger.exception(f"Erreur lors de l'appel de l'action {action} sur {device_id}")
         return {"status": "error", "message": str(e)}
-        
+    
+
+
+# Fonction qui retourne l'action turnOn.
+def turn_on_fibaro(device_id:int) -> dict:
+    """
+    Allume un périphérique Fibaro.
+    """
+    return _call_action(device_id, "turnOn")
+
+
+# Fonction qui retourne l'action turnOff.
+def turn_off_fibaro(device_id:int) -> dict:
+    """
+    Éteint un périphérique Fibaro.
+    """
+    return _call_action(device_id, "turnOff")
+
