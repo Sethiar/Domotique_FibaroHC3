@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 from services.logger_service import logger
+
 from controllers.control import process_ipx_event
+from services.device_mapping import get_fibaro_id
 
 
 # Routes/fibaro_routes.py
@@ -42,7 +44,7 @@ def handle_ipx_event():
 
     Données requises :
 
-      - device_id (identifiant du périphérique),
+      - Utilise le mapping IPX → Fibaro pour identifier le périphérique cible.
       - etat (commande, typiquement '1/on' ou '0/off').
 
     Processus :
@@ -70,56 +72,39 @@ def handle_ipx_event():
         logger.info("---------------------------------")
 
         # Récupération des paramètres
-        device_id = request.args.get('relais') or request.form.get('relais')
+        ipx_name = request.args.get('relais') or request.form.get('relais')
         etat = request.args.get('etat') or request.form.get('etat')
 
         # Tentative JSON si non trouvé
-        if not device_id or not etat:
+        if not ipx_name or not etat:
             json_data = request.get_json(silent=True)
             if json_data:
-                device_id = device_id or json_data.get('device_id') or json_data.get('relais')
+                ipx_name = ipx_name or json_data.get('device_id') or json_data.get('relais')
                 etat = etat or json_data.get('etat')
 
         # Tentative raw data clé=valeur
-        if not device_id or not etat:
+        if not ipx_name or not etat:
             raw = request.data.decode(errors='ignore').strip()
             if raw and '=' in raw:
                 params = dict(pair.split('=', 1) for pair in raw.split('&') if '=' in pair)
-                device_id = device_id or params.get('device_id') or params.get('relais')
+                ipx_name = ipx_name or params.get('device_id') or params.get('relais')
                 etat = etat or params.get('etat')
 
         # Vérification
-        if not device_id or not etat:
-            logger.error("device_id ou etat manquants après parsing complet.")
+        if not ipx_name or not etat:
+            logger.error("relais (device_id) ou etat manquants après parsing complet.")
             return jsonify({"status": "error", "message": "device_id et etat requis."}), 400
 
-        # Normalisation de l'état
-        etat = etat.strip().lower()
-        if etat in ('1', 'on'):
-            etat = 'on'
-        elif etat in ('0', 'off'):
-            etat = 'off'
-        else:
-            logger.error(f"Etat invalide reçu : {etat}")
-            return jsonify({"status": "error", "message": "Etat doit être 0/1 ou on/off."}), 400
-
-        # Log final
-        logger.info(f"ID du périphérique : {device_id}, Etat : {etat}")
-        data = {'device_id': device_id, 'etat': etat}
+        # Mapping IPX → Fibaro
+        device_id = get_fibaro_id(ipx_name)
+        if device_id is None:
+            return jsonify({"status": "error", "message": f"Aucun mapping trouvé pour {ipx_name}"}), 400
 
         # Appel de la fonction métier
-        response = process_ipx_event(data)
+        response = process_ipx_event({"device_id": ipx_name, "etat": etat})
         return jsonify(response), 200
 
     except Exception as e:
         logger.exception(f"Erreur lors du traitement de l'événement IPX800 : {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
     
-
-# Route pour envoyer des commandes à l'IPX800
-@fibaro_bp.route('/ipx-tests2', methods=['GET'])
-def receive_ipx_data():
-    data = request.args if request.method == "GET" else request.form
-    print("Données reçues :", data.to_dict())
-    return "OK", 200
-

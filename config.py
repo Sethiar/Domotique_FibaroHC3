@@ -12,8 +12,6 @@ Date : 2025-08-05
 import os
 from dotenv import load_dotenv
 
-
-
 # Chargement des variables d'environnement à partir du fichier .env
 load_dotenv()
 
@@ -39,6 +37,9 @@ SECRET_KEY = os.getenv("FLASK_SECRET_KEY", "sethiarworks-secretkey")
 #     Paramètres Fibaro     #
 #===========================#
 
+# Construction dynamique de l'url.
+USE_SIMULATOR = os.getenv("USE_SIMULATOR", "false").lower() == "true"
+
 # Adresse IP de la box Fibaro
 FIBARO_IP = os.getenv("FIBARO_IP", "192.168.1.33")
 
@@ -58,6 +59,23 @@ if FIBARO_PORT == 80:
     FIBARO_BASE_URL = f"http://{FIBARO_IP}/api"
 else:
     FIBARO_BASE_URL = f"http://{FIBARO_IP}:{FIBARO_PORT}/api"
+    
+    
+    
+#===========================#
+# ==== Config pour sms ==== #
+#===========================#
+
+SMTP_SERVER = os.getenv("SMTP_SERVER")
+SMTP_PORT = os.getenv("SMTP_PORT")
+SMTP_USER = os.getenv("SMTP_USER")
+SMTP_PASS = os.getenv("SMTP_PASS")
+
+# Numéro destinataire
+SMS_TO = os.getenv("SMS_TO")
+
+# Cooldown entre deux alertes
+ALERT_COOLDOWN = os.getenv("ALERT_COOLDOWN")
 
 
 #=================================#

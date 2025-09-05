@@ -16,6 +16,8 @@ import requests
 import os
 # Module pour la gestion des données JSON.
 import json
+# Importation de config
+import config
 
 # Importation afin de pouvoir faire des logging de suivi.
 from services.logger_service import logger
@@ -27,18 +29,6 @@ from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
 
 load_dotenv()
-
-
-# Adresse IP de la box Fibaro HC3
-FIBARO_IP = "192.168.1.33"
-# Port d'écoute de l'API (80 par défaut)
-FIBARO_PORT = "80"
-# utilisateur de la Fibaro HC3
-FIBARO_USER = ""
-# Mot de passe de la Fibaro HC3
-FIBARO_PASSWORD = ""
-# Construction dynamique de l'url.
-USE_SIMULATOR = os.getenv("USE_SIMULATOR", "false").lower() == "true"
 
 
 # Fonction qui va envoyer la valeur d'état du bouton à la Fibaro.
@@ -53,23 +43,32 @@ def _call_action(device_id: int, action: str) -> dict:
     Returns:
         dict: Résultat de l'opération.    
     """
-    auth = HTTPBasicAuth(FIBARO_USER, FIBARO_PASSWORD)
+    auth = HTTPBasicAuth(config.FIBARO_USER, config.FIBARO_PASSWORD)
     
-    base_url = f"http://{FIBARO_IP}" if FIBARO_PORT =="80" else f"http://{FIBARO_IP}:{FIBARO_PORT}"
-    url = f"{base_url}/api/devices/{device_id}/action/{action}"
+    base_url = f"http://{config.FIBARO_IP}" if config.FIBARO_PORT == 80 else f"http://{config.FIBARO_IP}:{config.FIBARO_PORT}"
+    url = f"{base_url}/api/callAction"
  
-    headers = {"Content-Type": "application/json"}
+    # Paramètres GET
+    params = {
+        "deviceID": device_id,
+        "name": action
+    }
     
     try:
-        logger.debug(f"Envoi à Fibaro: URL={url}")
-        response = requests.post(url, auth=auth, headers=headers, timeout=5)
+        logger.debug(f"Envoi à Fibaro: URL={url}, params={params}")
+        response = requests.get(url, auth=auth, params=params, timeout=5)
         logger.debug(f"Réponse Fibaro: {response.text}")
         
+        try:
+            resp_json = response.json()
+        except ValueError:
+            resp_json = {}
+
         if response.status_code == 200:
-            return {"status": "success", "code": response.status_code}   
-        else: 
+            return {"status": "success", "code": response.status_code, "response": resp_json}   
+        else:
             logger.warning(f"Erreur callAction Fibaro ({response.status_code}): {response.text}")
-            return {"status": "failed", "code": response.status_code, "message": response.text}
+            return {"status": "failed", "code": response.status_code, "response": resp_json, "message": response.text}
         
     except Exception as e:
         logger.exception(f"Erreur lors de l'appel de l'action {action} sur {device_id}")
