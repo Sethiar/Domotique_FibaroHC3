@@ -7,24 +7,6 @@ from services.device_mapping import get_fibaro_id
 
 # Routes/fibaro_routes.py
 fibaro_bp = Blueprint('fibaro', __name__)
-
-
-# Fonction tests qui reçoit tout de l'ipx800
-@fibaro_bp.route('/ipx-tests', methods=['GET', 'POST'])
-def ipx_tests():
-    try:
-        logger.info("---- NOUVELLE REQUÊTE IPX ----")
-        logger.info(f"Méthode : {request.method}")
-        logger.info(f"Headers : {dict(request.headers)}")
-        logger.info(f"Query String : {request.query_string.decode(errors='ignore')}")
-        logger.info(f"Form data : {request.form.to_dict()}")
-        logger.info(f"Raw data : {request.data.decode(errors='ignore')}")
-        logger.info(f"JSON : {request.get_json(silent=True)}")
-        logger.info("---------------------------------")
-        return "OK", 200
-    except Exception as e:
-        logger.exception(f"Erreur dans ipx-tests : {e}")
-        return "Erreur serveur", 500
   
   
 # Fonction qui va recevoir les événements de l'IPx800.

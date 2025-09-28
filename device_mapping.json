@@ -1,6 +1,16 @@
 
 {
+  "ipx_lumière_cuisine": 1,
+  "ipx_lumière_salle_manger": 2,
+  "ipx_lumière_salle_bain": 3,
+  "ipx_chauffage_1": 4,
+  "ipx_chauffage_2": 5,
+  "ipx_lumière_salon": 6,
+  "ipx_TV_salon": 7,
+  "ipx_essai": 8,
   "ipx_lumière_toilettes_étage": 12,
   "ipx_2": 15,
-  "ipx_congelateur": 20
+  "ipx_congelateur": 20,
+  "ipx_lumiere_chevet-rdc": 31,
+  "ipx_lumière": 32
 }

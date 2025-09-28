@@ -1,8 +1,7 @@
 """
 fibaro_service.py
 
-Ce module contient la logique pour envoyer des commandes de l'IPX800 vers la Fibaro HC3 
-via des requêtes HTTP sécurisées. 
+Module pour envoyer des commandes de l'IPX800 vers la Fibaro HC3 via HTTP POST JSON.
 
 Il permet de changer l'état des appareils (ex. allumer/éteindre une lumière) en fonction des événements reçus.
 
@@ -12,8 +11,6 @@ Date : 2025-08-05
 
 # Importation pour faire des appels HTTP vers la box FIbaro HC3.
 import requests
-# Permet de lire les variables d'environnement définies dans le fichier .env.
-import os
 # Module pour la gestion des données JSON.
 import json
 # Importation de config
@@ -49,14 +46,14 @@ def _call_action(device_id: int, action: str) -> dict:
     url = f"{base_url}/api/callAction"
  
     # Paramètres GET
-    params = {
+    payload = {
         "deviceID": device_id,
         "name": action
     }
     
     try:
-        logger.debug(f"Envoi à Fibaro: URL={url}, params={params}")
-        response = requests.get(url, auth=auth, params=params, timeout=5)
+        logger.debug(f"Envoi à Fibaro: URL={url}, payload={payload}")
+        response = requests.get(url, auth=auth, json=payload, timeout=5)
         logger.debug(f"Réponse Fibaro: {response.text}")
         
         try:
@@ -91,3 +88,23 @@ def turn_off_fibaro(device_id:int) -> dict:
     """
     return _call_action(device_id, "turnOff")
 
+
+# Fonction allumant / éteignant le périphérique.
+def set_fibaro(device_id: int, etat) -> dict:
+    """
+    Allume ou éteint un périphérique selon la valeur reçue (0/1, False/True, "0"/"1").
+
+    Args:
+        device_id (int): ID du périphérique.
+        etat (int/str/bool): Valeur de l'état.
+
+    Returns:
+        dict: Résultat de l'opération.
+    """
+    if etat in [0, "0", False, "off"]:
+        return turn_off_fibaro(device_id)
+    elif etat in [1, "1", True, "on"]:
+        return turn_on_fibaro(device_id)
+    else:
+        logger.warning(f"Etat invalide pour le périphérique {device_id}: {etat}")
+        return {"status": "error", "message": f"Etat invalide: {etat}"}
