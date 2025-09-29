@@ -53,6 +53,11 @@ def handle_ipx_event():
         logger.info(f"JSON : {request.get_json(silent=True)}")
         logger.info(f"DEBUG - ipx_name={ipx_name}, etat={etat}")
         logger.info("---------------------------------")
+        
+        
+        # Mise en place des variables.
+        ipx_name = None
+        etat = None
 
         # Récupération des paramètres
         ipx_name = request.args.get('relais') or request.form.get('relais')
