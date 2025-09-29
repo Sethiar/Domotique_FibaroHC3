@@ -2,8 +2,10 @@ from flask import Blueprint, request, jsonify
 from services.logger_service import logger
 
 from controllers.control import process_ipx_event
-from services.device_mapping import get_fibaro_id
+from services.device_mapping import DEVICE_MAP, get_fibaro_id
 
+# Inversion du mapping pour faire correspondre l'ID numérique au nom logique
+NUMERIC_DEVICE_MAP = {v: k for k, v in DEVICE_MAP.items()}
 
 # Routes/fibaro_routes.py
 fibaro_bp = Blueprint('fibaro', __name__)
@@ -82,8 +84,17 @@ def handle_ipx_event():
         if not ipx_name or not etat:
             logger.error("relais (device_id) ou etat manquants après parsing complet.")
             return jsonify({"status": "error", "message": "device_id et etat requis."}), 400
-
-        # Mapping IPX → Fibaro
+        # Si c'est un ID numérique, on récupère le nom logique correspondant
+        try:
+            ipx_num = int(ipx_name)
+            ipx_name = NUMERIC_DEVICE_MAP.get(ipx_num)
+            if ipx_name is None:
+                return jsonify({"status": "error", "message": f"Aucun mapping trouvé pour ID {ipx_num}"}), 400
+        except ValueError:
+            # Ce n'était pas un nombre, on garde le nom tel quel
+            pass
+          
+        # Récupération de l'ID Fibaro à partir du nom logique
         device_id = get_fibaro_id(ipx_name)
         if device_id is None:
             return jsonify({"status": "error", "message": f"Aucun mapping trouvé pour {ipx_name}"}), 400
