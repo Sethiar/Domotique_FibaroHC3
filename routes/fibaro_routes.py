@@ -51,6 +51,7 @@ def handle_ipx_event():
         logger.info(f"Form data : {request.form.to_dict()}")
         logger.info(f"Raw data : {request.data.decode(errors='ignore')}")
         logger.info(f"JSON : {request.get_json(silent=True)}")
+        logger.info(f"DEBUG - ipx_name={ipx_name}, etat={etat}")
         logger.info("---------------------------------")
 
         # Récupération des paramètres
