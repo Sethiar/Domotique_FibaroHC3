@@ -42,6 +42,11 @@ def handle_ipx_event():
       - 400 : données manquantes ou invalides.
       - 500 : erreur serveur (non gérée ici explicitement mais possible).
     """
+    
+    # Mise en place des variables.
+    ipx_name = None
+    etat = None
+    
     try:
         # Logs pour debug
         logger.info(f"---- NOUVELLE REQUÊTE IPX ----")
@@ -53,11 +58,6 @@ def handle_ipx_event():
         logger.info(f"JSON : {request.get_json(silent=True)}")
         logger.info(f"DEBUG - ipx_name={ipx_name}, etat={etat}")
         logger.info("---------------------------------")
-        
-        
-        # Mise en place des variables.
-        ipx_name = None
-        etat = None
 
         # Récupération des paramètres
         ipx_name = request.args.get('relais') or request.form.get('relais')
