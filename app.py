@@ -25,6 +25,7 @@ load_dotenv()
 # Importation des routes définies dans un Blueprint
 from routes.fibaro_routes import fibaro_bp
 from routes.ipx_routes import ipx_bp
+from routes.fibaro_test import fibaro_test_bp
 
 
 def create_app() -> Flask:
@@ -37,6 +38,8 @@ def create_app() -> Flask:
     app = Flask("Herve Fibaro")
     app.register_blueprint(fibaro_bp)
     app.register_blueprint(ipx_bp)
+    app.register_blueprint(fibaro_test_bp)
+    
     return app
 
 
